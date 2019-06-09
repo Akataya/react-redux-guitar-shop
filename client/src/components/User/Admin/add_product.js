@@ -9,6 +9,7 @@ import {
   populateOptionFields,
   resetFields
 } from "../../utils/Form/formActions";
+import FileUpload from "../../utils/Form/fileUpload";
 
 import { connect } from "react-redux";
 import {
@@ -30,7 +31,7 @@ class AddProduct extends Component {
           label: "Product name",
           name: "name_input",
           type: "text",
-          placeholder: "Enter your name"
+          placeholder: "Enter product name"
         },
         validation: {
           required: true
@@ -177,6 +178,16 @@ class AddProduct extends Component {
         touched: false,
         validationMessage: "",
         showlabel: true
+      },
+      images: {
+        value: [],
+        validation: {
+          required: false
+        },
+        valid: true,
+        touched: false,
+        validationMessage: "",
+        showlabel: false
       }
     }
   };
@@ -235,6 +246,19 @@ class AddProduct extends Component {
     }
   };
 
+  imagesHandler = images => {
+    const newFormData = {
+      ...this.state.formdata
+    };
+
+    newFormData["images"].value = images;
+    newFormData["images"].valid = true;
+
+    this.setState({
+      formdata: newFormData
+    });
+  };
+
   componentDidMount() {
     const formdata = this.state.formdata;
 
@@ -265,6 +289,10 @@ class AddProduct extends Component {
         <div>
           <h1>Add Product</h1>
           <form onSubmit={event => this.submitForm(event)}>
+            <FileUpload
+              imagesHandler={images => this.imagesHandler(images)}
+              reset={this.state.formSuccess}
+            />
             <Formfield
               id={"name"}
               formdata={this.state.formdata.name}

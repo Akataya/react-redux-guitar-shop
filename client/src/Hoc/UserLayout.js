@@ -19,7 +19,7 @@ const links = [
 
 const admin = [
   {
-    name: "Side info",
+    name: "Site info",
     linkTo: "/admin/site_info"
   },
   {
